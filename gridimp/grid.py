@@ -12,6 +12,19 @@ v_21cm = 1420.405751#MHz
 import astropy_healpix
 from astropy_healpix import HEALPix
 
+def init_healpix(nside,ramin,ramax,decmin,decmax,numin,numax,nnu,n0):
+    '''From input survey params, get HEALPix coordinates and the Cartesian
+    dimensions for the grid that encloses the survey footprint'''
+    hp0 = HEALPix(nside)
+    ipix = np.arange(hp0.npix)
+    ra,dec = hp0.healpix_to_lonlat(ipix)
+    hpmask = np.zeros(hp0.npix)
+    hpmask[ (ra.to(u.deg).value>=ramin) & (ra.to(u.deg).value<=ramax) & (dec.to(u.deg).value>=decmin) & (dec.to(u.deg).value<=decmax) ] = 1
+    nu = np.linspace(numin,numax,nnu)
+    ra,dec = ra[hpmask==1],dec[hpmask==1]
+    dims_0 = comoving_dims(ra,dec,nu,nside,(n0,n0,n0))
+    return ra,dec,nu,dims_0
+
 def comoving_dims(ra,dec,nu,nside,ndim=None,W=None,frame='icrs'):
     '''Obtain lengths and origins of Cartesian comoving grid that encloses a
     sky map with (RA,Dec,nu) input coordinates for the HEALPix map voxels'''
@@ -125,7 +138,7 @@ def ParticleSampling(delta,dims_0,dims_1,Np=1,sample_ingrid=True):
     cellvals = cellvals[cellvals!=0]
     return xp,yp,zp,cellvals
 
-def lightcone_healpy(physmap,dims0,ra,dec,nu,nside,W=None,Np=3,frame='icrs',verbose=False):
+def lightcone_healpy(physmap,dims0,ra,dec,nu,nside,W=None,Np=5,frame='icrs',verbose=False):
     '''Regrid density/temp field in comoving [Mpc/h] cartesian space, into lightcone
     with (RA,Dec,z) - uses HEALPix (ra,dec) 1D array ring coordinate scheme'''
     ### Produce Np test particles per healpix map voxel for regridding:
