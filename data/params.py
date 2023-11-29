@@ -1,13 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
-from scipy.ndimage import gaussian_filter
-
-##### CHANGE THIS TO PIP INSTALL GRIDIMP ##############
-import sys
-sys.path.insert(1, '/Users/user/Documents/gridimp/gridimp')
-sys.path.insert(1, '/users/scunnington/gridimp/gridimp')
-
 from astropy_healpix import HEALPix
 from astropy import units as u
 from scipy.ndimage import gaussian_filter
@@ -40,7 +32,7 @@ def init(survey='Initial',dobeam=True,dohealpy=True,fft2hp_ratio=2):
     if reduced_factor!=1: nside,nnu,n0 = int(nside/reduced_factor),int(nnu/reduced_factor),int(n0/reduced_factor)
 
     ### Initialise cosmology for effective redshift of survey:
-    import cosmo
+    from gridimp import cosmo
     nu_21cm = 1420.405751#MHz
     zmin,zmax = (nu_21cm/numax) - 1,(nu_21cm/numin) - 1
     zeff = np.mean([zmin,zmax])
@@ -49,11 +41,11 @@ def init(survey='Initial',dobeam=True,dohealpy=True,fft2hp_ratio=2):
     b_HI = 1.5
     OmegaHIbHI = 0.85e-3 # From MeerKATxWiggleZ constraint
     OmegaHI = OmegaHIbHI/b_HI
-    import line
+    from gridimp import line
     T_21cm = line.T_21cm(zeff,OmegaHI)
 
     ### Initialise healpix environment and calculate sky survey mask and grid sizes:
-    import grid
+    from gridimp import grid
     hp0 = HEALPix(nside)
     ipix = np.arange(hp0.npix)
     ra,dec = hp0.healpix_to_lonlat(ipix)
@@ -90,7 +82,7 @@ def init(survey='Initial',dobeam=True,dohealpy=True,fft2hp_ratio=2):
     ### Determine a Gaussian beam-size to apply:
     # - defined by dish size and the beam spread at median frequency.
     if dobeam==True:
-        import telescope
+        from gridimp import telescope
         D_dish = 15
         theta_FWHM,R_beam = telescope.getbeampars(D_dish,np.median(nu),verbose=True)
     else: R_beam = 0
@@ -112,7 +104,7 @@ def init(survey='Initial',dobeam=True,dohealpy=True,fft2hp_ratio=2):
     #exit()
 
     ### Assign some k-bins for power spectra:
-    import power
+    from gridimp import power
     nyq = np.min( [ nfftx*np.pi/lx, nffty*np.pi/ly, nfftz*np.pi/lz ] )
     kmax = 1.2*nyq
     kmin = 4*np.pi/np.max([lx,ly,lz])
