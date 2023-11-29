@@ -92,5 +92,7 @@ f_fft,W_fft,counts = grid.mesh(xp,yp,zp,pixvals,dims_fft,window,compensate,inter
 Pk,k,nmodes = power.Pk(f_fft,dims_fft,kbins,w1=W_fft,W1=W_fft)
 
 plt.plot(k,Pk)
+plt.xlabel(r'$k\,[h/{\rm Mpc}]$')
+plt.ylabel(r'$P(k)\,[({\rm Mpc}/h)^3 \, {\rm mK}^2]$')
 plt.loglog()
 plt.show()
