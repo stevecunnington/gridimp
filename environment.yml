@@ -1,0 +1,18 @@
+name: gridimp
+channels:
+  - conda-forge
+  - bccp
+dependencies:
+  - python=3.7
+  - numpy
+  - matplotlib
+  - scipy
+  - astropy
+  - astropy-healpix
+  - pyfftw
+  - classylss
+  - pmesh
+
+  # Build conda environment with:
+  # conda env create -f environment.yml
+  # conda activate gridimp
