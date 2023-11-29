@@ -29,7 +29,9 @@ python examples/toy.py
 ```
 Some lines of code demonstrating how to regrid a LIM
 ```
-See ``scripts`` folder for more in-depth code which reproduce the results in the accompanying paper (https://arxiv.org/pdf/23??.????.pdf).
+``examples/toy.py`` has a walkthrough of simulation generation -> Healpix sky mapping -> Cartesian regridding -> power spectrum estimation.
+
+``scripts`` folder has the original more in-depth code used to generate the main results in the accompanying paper (https://arxiv.org/pdf/23??.????.pdf).
 
 
 ## Acknowledgement:
