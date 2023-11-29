@@ -13,7 +13,6 @@ setup_args = {
     'packages': ['gridimp'],
     'package_dir': {'gridimp': 'gridimp'},
     'install_requires': [
-        'python=3.7',
         'numpy',
         'matplotlib',
         'scipy',

@@ -3,13 +3,6 @@ import matplotlib.pyplot as plt
 from astropy_healpix import HEALPix
 from astropy import units as u
 
-##### CHANGE THIS TO PIP INSTALL GRIDIMP ##############
-import sys
-sys.path.insert(1, '/Users/user/Documents/gridimp/gridimp')
-sys.path.insert(1, '/users/scunnington/gridimp/gridimp')
-sys.path.insert(1, '/Users/user/Documents/gridimp/data')
-sys.path.insert(1, '/users/scunnington/gridimp/data')
-
 ramin,ramax = 10,30
 decmin,decmax = 10,30.1 #[need 30.1 otherwise differences on Ilifu and local ?????]
 numin,numax = 925.5,1063.5
@@ -18,7 +11,7 @@ nside = 128
 n0 = 256 # n0^3 will be number of cells for input grid cube
 
 ### Initialise cosmology for effective redshift of survey:
-import cosmo
+from gridimp import cosmo
 nu_21cm = 1420.405751#MHz
 zmin,zmax = (nu_21cm/numax) - 1,(nu_21cm/numin) - 1
 zeff = np.mean([zmin,zmax])
@@ -27,17 +20,17 @@ Pmod = cosmo.GetModelPk(z=zeff)
 b_HI = 1.5
 OmegaHIbHI = 0.85e-3 # From MeerKATxWiggleZ constraint
 OmegaHI = OmegaHIbHI/b_HI
-import line
+from gridimp import line
 T_21cm = line.T_21cm(zeff,OmegaHI)
 R_beam = 0 # no beam for this test
 
-import mock
-import telescope
-import power
-import line
+from gridimp import mock
+from gridimp import telescope
+from gridimp import power
+from gridimp import line
 
 ### Initialise healpix environment and calculate sky survey mask and grid sizes:
-import grid
+from gridimp import grid
 hp0 = HEALPix(nside)
 ipix = np.arange(hp0.npix)
 ra,dec = hp0.healpix_to_lonlat(ipix)
@@ -75,7 +68,7 @@ print('Output FFT grid cells (nx*ny,nz):', str([nfftx*nffty,nfftz]))
 print(' - (nx,ny,nz):',str([nfftx,nffty,nfftz]),'\n')
 
 ### Assign some k-bins for power spectra:
-import power
+from gridimp import power
 nyq = np.min( [ nfftx*np.pi/lx, nffty*np.pi/ly, nfftz*np.pi/lz ] )
 kmax = 1.2*nyq
 kmin = 4*np.pi/np.max([lx,ly,lz])

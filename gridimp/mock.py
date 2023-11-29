@@ -13,7 +13,7 @@ except ImportError:
 #### Setting false by default since getting FFTW errors
 HAVE_FFTW = False
 
-import dft # power box script
+from gridimp import dft # power box script
 
 def getkspec(nx,ny,nz,dx,dy,dz,doRSD=False):
     '''Obtain 3D grid of k-modes - different to power.getkspec; this places low-k

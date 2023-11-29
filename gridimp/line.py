@@ -1,5 +1,5 @@
 import numpy as np
-import cosmo
+from gridimp import cosmo
 H0 = cosmo.H(0)
 h = H0/100
 nu_21cm = 1420.405751 #21cm frequency in MHz at z=0

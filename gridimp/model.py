@@ -1,7 +1,7 @@
 import numpy as np
-import cosmo
+from gridimp import cosmo
 H0 = cosmo.H(0)
-import power
+from gridimp import power
 from scipy.interpolate import interp1d
 
 def PkMod(Pmod,dims,kbins=None,b1=1,b2=None,f=0,sig_v=0,Tbar1=1,Tbar2=None,r=1,R_beam1=0,R_beam2=None,sig_N=0,w1=None,w2=None,W1=None,W2=None,s_pix=None,s_para=None,hppixwin=None,nsum=0,window=None,interpkbins=True,Pk2D=False,kperpbins=None,kparabins=None):

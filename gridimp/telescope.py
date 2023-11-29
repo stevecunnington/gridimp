@@ -1,6 +1,6 @@
 import numpy as np
-import cosmo
-import line
+from gridimp import cosmo
+from gridimp import line
 from scipy.ndimage import gaussian_filter
 c = 299792458 # speed of light m/s
 

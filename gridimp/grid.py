@@ -1,16 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pmesh
-import model
 import astropy
 from astropy.coordinates import SkyCoord
 from astropy import units as u
-
-import cosmo
-import line
+from gridimp import model
+from gridimp import cosmo
+from gridimp import line
 h = cosmo.H(0)/100 # use to convert astopy Mpc distances to Mpc/h
 v_21cm = 1420.405751#MHz
-
 import astropy_healpix
 from astropy_healpix import HEALPix
 
