@@ -1,5 +1,6 @@
 # gridimp
 **grid**ded **i**ntensity **m**apping **p**ower
+#grid#ded #i#ntensity #m#apping #p#ower
 
 ## Introduction:
 Toolkit for regridding line intensity maps onto a Cartesian grid on which fast Fourier transforms can be run for analysing n-point clustering statistics (such as the power spectrum) in Fourier space. The pipeline provides two novel features: 
@@ -26,12 +27,65 @@ python examples/toy.py
 ```
 
 ## Getting started:
+
+* #### Cartesian lognormal mock:
+Generate a fast cubic lognormal mock over n=128^3 cells with size l=500^3(Mpc/h)^3:
 ```
-Some lines of code demonstrating how to regrid a LIM
+from gridimp import cosmo
+from gridimp import mock
+
+cosmo.SetCosmology(z=1) # set cosmology
+Pmod = cosmo.GetModelPk(z=1) # obtain matter power spectrum
+
+l = 500 # length of box down one side [Mpc/h]
+n = 128 # number of cells down one side
+dims = [l,l,l,n,n,n,0,0,0] # lengths,cells,origins for each dimension
+
+delta_0 = mock.Generate(Pmod,dims) # generate LIM mock (default b=1,T=1)
 ```
+
+* #### HEALPix sky maps for simulated survey:
+By defining input simulated survey parameters, a lognormal mock can be generated onto a Cartesian grid calculated to fully enclose the survey footprint.
+
+```
+### Define survey parameters:
+ramin,ramax = 10,30 # [deg]
+decmin,decmax = 10,30  # [deg]
+numin,numax = 900,1110 # [MHz]
+nnu = 60 # number of frequency channels
+nside = 128 # HEALPix resolution: determines pixel size
+n0 = 256 # n0^3 will be number of cells for input grid cube
+
+### Initialise healpix and get sky coordinates for voxels covering survey:
+from gridimp import grid
+ra,dec,nu,dims_0 = grid.init_healpix(nside,ramin,ramax,decmin,decmax,numin,numax,nnu,n0)
+
+delta_0 = mock.Generate(Pmod,dims_0) # generate LIM mock (default b=1,T=1)
+
+# Create healpy sky maps for each frequency channel:
+m = grid.lightcone_healpy(delta_0,dims_0,ra,dec,nu,nside)
+```
+
+* #### Resample sky maps to Cartesian grid on which FFT can be run:
+```
+n = 64 # n^3 will be number of cells for out FFT grid
+Np = 5 # number of sampling particles per map voxel for regridding
+window = 'ngp' # mass assignment function
+compensate = True # correct for interpolaton effects at field level
+interlace = False # interlace FFT fields
+
+# Regrid to FFT:
+from astropy import units as u
+from gridimp import line
+ra_p,dec_p,nu_p,pixvals = grid.SkyPixelParticles_healpy(ra,dec,nu,nside,m,Np=Np)
+xp,yp,zp = grid.SkyCoordtoCartesian(ra_p.to(u.deg).value,dec_p.to(u.deg).value,line.nu21cm_to_z(nu_p),ramean_arr=ra.to(u.deg).value,decmean_arr=dec.to(u.deg).value,doTile=False)
+dims_fft = grid.comoving_dims(ra,dec,nu,nside,(n,n,n))
+delta_G,W,counts = grid.mesh(xp,yp,zp,pixvals,dims_fft,window,compensate,interlace)
+```
+
 ``examples/toy.py`` has a walkthrough of simulation generation -> Healpix sky mapping -> Cartesian regridding -> power spectrum estimation.
 
-``scripts`` folder has the original more in-depth code used to generate the main results in the accompanying paper (https://arxiv.org/pdf/23??.????.pdf).
+``scripts`` folder has the original in-depth code used to generate the main results in the accompanying paper (https://arxiv.org/pdf/23??.????.pdf).
 
 
 ## Acknowledgement:
