@@ -1,6 +1,5 @@
 # gridimp
 **grid**ded **i**ntensity **m**apping **p**ower
-#grid#ded #i#ntensity #m#apping #p#ower
 
 ## Introduction:
 Toolkit for regridding line intensity maps onto a Cartesian grid on which fast Fourier transforms can be run for analysing n-point clustering statistics (such as the power spectrum) in Fourier space. The pipeline provides two novel features: 
