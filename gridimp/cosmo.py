@@ -9,10 +9,10 @@ def SetCosmology(builtincosmo='Planck18',z=0):
     global Om0
     if builtincosmo=='Planck15': Om0 = 0.307
     if builtincosmo=='Planck18': Om0 = 0.315
-    global cosmo
-    if builtincosmo=='Planck15': from astropy.cosmology import Planck15 as cosmo
-    if builtincosmo=='Planck18': from astropy.cosmology import Planck18 as cosmo
-    H_0 = cosmo.H(0).value
+    global cosmo_
+    if builtincosmo=='Planck15': from astropy.cosmology import Planck15 as cosmo_
+    if builtincosmo=='Planck18': from astropy.cosmology import Planck18 as cosmo_
+    H_0 = cosmo_.H(0).value
     h = H_0/100
 
 def f(z):
@@ -20,14 +20,14 @@ def f(z):
     return Omega_m(z)**gamma
 
 def H(z):
-    return cosmo.H(z).value
+    return cosmo_.H(z).value
 
 def Omega_m(z):
     return H_0**2*Om0*(1+z)**3 / H(z)**2
 
 def d_com(z,UseCamb=False):
     '''Comoving distance (using astropy) in Mpc/h'''
-    return cosmo.comoving_distance(z).value * h
+    return cosmo_.comoving_distance(z).value * h
 
 def GetModelPk(z,kmin=1e-3,kmax=10,NonLinear=False):
     '''Generate model matter power spectrum at redshift z using classy'''

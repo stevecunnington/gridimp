@@ -14,27 +14,34 @@ sys.path.insert(1, '/users/scunnington/gridimp/data')
 import params
 dohealpy = True
 dobeam = True
-#survey = 'Initial'
-survey = 'FineChannel'
 fft2hp_ratio = 2
+
+### Always use FineChannel to define kperp/kpara bins for easy comparison:
+survey = 'FineChannel'
 Pmod,b_HI,T_21cm,nside,hpmask,ramin,ramax,decmin,decmax,ra,dec,nu,dims_0,dims_hp,dims_fft,R_beam,kbins,nkbin,nyq = params.init(survey=survey,dobeam=dobeam,dohealpy=dohealpy,fft2hp_ratio=fft2hp_ratio)
 lx,ly,lz,n0x,n0y,n0z = dims_0[:6]
 lx,ly,lz,nfftx,nffty,nfftz = dims_fft[:6]
-
-import cosmo
-import mock
-import grid
-import telescope
-import power
-import line
-import model
-
 nyqx,nyqy,nyqz = nfftx*np.pi/lx, nffty*np.pi/ly, nfftz*np.pi/lz
 nyq_perp = np.sqrt(nyqx**2 + nyqy**2)
 nyq_para = nyqz
 kmin = 4*np.pi/np.max([lx,ly,lz])
 kperpbins = np.linspace(kmin,nyq_perp,int(nfftx/3))
 kparabins = np.linspace(kmin,nyq_para,int(nfftz/3))
+
+### Chose version to use for results:
+survey = 'Initial'
+#survey = 'FineChannel'
+Pmod,b_HI,T_21cm,nside,hpmask,ramin,ramax,decmin,decmax,ra,dec,nu,dims_0,dims_hp,dims_fft,R_beam,kbins,nkbin,nyq = params.init(survey=survey,dobeam=dobeam,dohealpy=dohealpy,fft2hp_ratio=fft2hp_ratio)
+lx,ly,lz,n0x,n0y,n0z = dims_0[:6]
+lx,ly,lz,nfftx,nffty,nfftz = dims_fft[:6]
+
+from gridimp import cosmo
+from gridimp import mock
+from gridimp import grid
+from gridimp import telescope
+from gridimp import power
+from gridimp import line
+from gridimp import model
 
 def runPkloop(Nmock,window,compensate,interlace,R_beam,dohealpy,loadMap):
 
@@ -66,8 +73,8 @@ Nmock = 100
 Np = 5
 
 ## No treatment biased case:
-window = 'pcs'
-interlace = True
+window = 'ngp'
+interlace = False
 compensate = True
 k2D,Pk2D_fft = runPkloop(Nmock,window,compensate,interlace,R_beam,dohealpy,loadMap)
 exit()
