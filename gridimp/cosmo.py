@@ -25,7 +25,7 @@ def H(z):
 def Omega_m(z):
     return H_0**2*Om0*(1+z)**3 / H(z)**2
 
-def d_com(z,UseCamb=False):
+def d_com(z):
     '''Comoving distance (using astropy) in Mpc/h'''
     return cosmo_.comoving_distance(z).value * h
 
