@@ -2,11 +2,11 @@
 **grid**ded **i**ntensity **m**apping **p**ower
 
 ## Introduction:
-Toolkit for regridding line intensity maps onto a Cartesian grid on which fast Fourier transforms can be run for analysing n-point clustering statistics (such as the power spectrum) in Fourier space. The pipeline provides two novel features: 
+Toolkit for regridding line intensity maps onto a Cartesian grid on which fast Fourier transforms can be run for analysing n-point clustering statistics (such as the power spectrum) in Fourier space. The pipeline provides two novel features:
  - a validated Monte-Carlo style resampling from map (R.A., Dec. Frequency) space onto a Cartesian (x, y, z in [Mpc/h]) grid,
- - option of higher-order interpolation of the sampling particles (using ``pmesh``), which mitigates aliasing effects. 
+ - option of higher-order interpolation of the sampling particles (using ``pmesh``), which mitigates aliasing effects.
 
-The algorithms in this package are discussed in detail in the accompanying paper (https://arxiv.org/pdf/23??.????.pdf), where validation on a suite of simulations is presented.
+The algorithms in this package are discussed in detail in the accompanying paper (https://arxiv.org/pdf/2312.07289.pdf), where validation on a suite of simulations is presented.
 
 ## Installation:
 1. Clone this repo `git clone https://github.com/stevecunnington/gridimp`.
@@ -84,11 +84,11 @@ delta_G,W,counts = grid.mesh(xp,yp,zp,pixvals,dims_fft,window,compensate,interla
 
 ``examples/toy.py`` has a walkthrough of simulation generation -> Healpix sky mapping -> Cartesian regridding -> power spectrum estimation.
 
-``scripts`` folder has the original in-depth code used to generate the main results in the accompanying paper (https://arxiv.org/pdf/23??.????.pdf).
+``scripts`` folder has the original in-depth code used to generate the main results in the accompanying paper (https://arxiv.org/pdf/2312.07289.pdf).
 
 
 ## Acknowledgement:
-If you use any of the code in gridimp, we kindly ask that you cite the accompanying paper (https://arxiv.org/pdf/23??.????.pdf).
+If you use any of the code in gridimp, we kindly ask that you cite the accompanying paper (https://arxiv.org/pdf/2312.07289.pdf).
 
 ## Contact:
 Feel free to get in contact with any comments, suggestions, or bug reports at:
