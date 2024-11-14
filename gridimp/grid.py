@@ -19,7 +19,10 @@ def init_healpix(nside,ramin,ramax,decmin,decmax,numin,numax,nnu,n0):
     ipix = np.arange(hp0.npix)
     ra,dec = hp0.healpix_to_lonlat(ipix)
     hpmask = np.zeros(hp0.npix)
-    hpmask[ (ra.to(u.deg).value>=ramin) & (ra.to(u.deg).value<=ramax) & (dec.to(u.deg).value>=decmin) & (dec.to(u.deg).value<=decmax) ] = 1
+    ra_deg,dec_deg = ra.to(u.deg).value,dec.to(u.deg).value
+    ra_deg[ra_deg>180] = ra_deg[ra_deg>180] - 360 # Make continuous RA i.e. 359,360,1 -> -1,0,1 cuts in ra can be done
+    hpmask[ (ra_deg>=ramin) & (ra_deg<=ramax) & (dec_deg>=decmin) & (dec_deg<=decmax) ] = 1
+    #hpmask[ (ra.to(u.deg).value>=ramin) & (ra.to(u.deg).value<=ramax) & (dec.to(u.deg).value>=decmin) & (dec.to(u.deg).value<=decmax) ] = 1
     nu = np.linspace(numin,numax,nnu)
     ra,dec = ra[hpmask==1],dec[hpmask==1]
     dims_0 = comoving_dims(ra,dec,nu,nside,(n0,n0,n0))

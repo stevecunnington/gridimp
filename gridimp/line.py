@@ -1,7 +1,4 @@
 import numpy as np
-from gridimp import cosmo
-H0 = cosmo.H(0)
-h = H0/100
 nu_21cm = 1420.405751 #21cm frequency in MHz at z=0
 
 def z_to_nu21cm(z):
@@ -14,8 +11,9 @@ def nu21cm_to_z(nu):
 
 def T_21cm(z,OmegaHI):
     # Mean brightness temperature for HI - Battye+13 formula
+    from gridimp import cosmo
+    H0 = cosmo.H(0)
     Hz = cosmo.H(z) #km / Mpc s
-    H0 = cosmo.H(0) #km / Mpc s
     h = H0/100
     return 180 * OmegaHI * h * (1+z)**2 / (Hz/H0)
 
