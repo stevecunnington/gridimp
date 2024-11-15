@@ -41,7 +41,6 @@ def comoving_dims(ra,dec,nu,nside,ndim=None,W=None,frame='icrs'):
     # Cut core particles since only need edges of map to convert and obtain fitted grid:
     ra_p[ra_p>180] = ra_p[ra_p>180] - 360 # Make continuous RA i.e. 359,360,1 -> -1,0,1 so mean RA is correct
     coremask = (ra_p>np.min(ra_p)) & (ra_p<np.max(ra_p)) & (ra_p>np.min(ra_p)) & (dec_p<np.max(dec_p)) & (nu_p>np.min(nu_p)) & (nu_p<np.max(nu_p))
-    ra_p[ra_p<0] = ra_p[ra_p<0] + 360 # Reset negative coordinates to 359,360,1 convention
     ra_p,dec_p,nu_p = ra_p[~coremask],dec_p[~coremask],nu_p[~coremask]
 
     # Extend boundaries particles by 5 map pixels in all directions for a buffer
@@ -56,6 +55,7 @@ def comoving_dims(ra,dec,nu,nside,ndim=None,W=None,frame='icrs'):
     nu_p[nu_p==np.min(nu_p)] -= 5*dnu
     nu_p[nu_p==np.max(nu_p)] += 5*dnu
 
+    ra_p[ra_p<0] = ra_p[ra_p<0] + 360 # Reset negative coordinates to 359,360,1 convention
     red_p = line.nu21cm_to_z(nu_p)
     x_p,y_p,z_p = SkyCoordtoCartesian(ra_p,dec_p,red_p,ramean_arr=ra.to(u.deg).value,decmean_arr=dec.to(u.deg).value,frame=frame,doTile=False)
 
