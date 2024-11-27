@@ -25,6 +25,21 @@ python setup.py install
 python examples/toy.py
 ```
 
+* For installation on ilifu [https://www.ilifu.ac.za/]
+Since this package is frequently used on ilifu, and users have experienced problems with stalling following the above installation steps, we share the following steps using miniforge [https://github.com/conda-forge/miniforge] which have helped overcome stalling issues in the environment build.
+
+a. First install conda miniforge with
+```
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh
+```
+b. Then use ``mamba`` to create the environment in step 3.:
+```
+mamba env create -f environment.yml
+conda activate gridimp
+```
+c. Follow steps 4. and 5. as before.
+
 ## Getting started:
 
 * #### Cartesian lognormal mock:

@@ -11,6 +11,8 @@ dependencies:
   - astropy-healpix
   - pyfftw
   - classylss
+  - mpich==3.3.2
+  - mpi4py==3.0.3
   - pmesh
 
   # Build conda environment with:
