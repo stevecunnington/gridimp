@@ -8,6 +8,7 @@ try: # See if pyfftw is installed and use this if so for increased speed perform
     from pyfftw import empty_aligned as empty
     HAVE_FFTW = True
 except ImportError:
+    from numpy import empty as empty
     HAVE_FFTW = False
 
 #### Setting false by default since getting FFTW errors
